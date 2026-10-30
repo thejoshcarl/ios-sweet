@@ -2,9 +2,11 @@
 
 **Fork status (2026-10-29):** This fork now includes an experimental custom
 `mona` QEMU machine for Moto G Stylus (2025) research. Its CPU, RAM, PSCI and
-timer-interrupt diagnostic passes on all eight modeled cores. Four big cores,
-the RAM layout, console and firmware interface use documented substitutes;
-phone peripherals remain unimplemented. See [build and test instructions](docs/MONA_QEMU.md)
+timer-interrupt diagnostic passes on all eight modeled cores. The reference
+XNU boots a test PID 1, and a local iOS root reaches the welcome screen with
+all eight XNU CPUs initialized. Four big cores, the RAM layout, framebuffer,
+console and firmware interface use documented substitutes; phone peripherals
+remain unimplemented. See [build and test instructions](docs/MONA_QEMU.md)
 and the [hardware contract](docs/MONA_HARDWARE.md). The Redmi results below
 describe upstream.
 

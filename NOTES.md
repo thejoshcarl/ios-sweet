@@ -17,8 +17,41 @@
 - Hardware substitutes: four A78AEs for the Moto A78s, contiguous development
   RAM at 0x80000000, PL011 console at 0x09000000, direct EL1 entry and emulated
   SMC PSCI. No Qualcomm peripheral/secure-world implementation is claimed.
-- QEMU checkpatch and Python syntax checks pass. No GitHub Actions run, phone
-  access or device write. XNU boot integration is the next milestone.
+- Initial implementation committed as `2feabc0` (custom machine, contract,
+  reproducible builder and core diagnostic). QEMU checkpatch and Python syntax
+  checks pass. No GitHub Actions run, phone access or device write.
+- XNU milestone: reference kernel SHA256
+  `d9cb893bd2baf841e94cd2001f0ec70c0fea42f045f87f14ae807e4ebc50e1e5`
+  from upstream fdad0de, build 39158169212. Kernel local path:
+  `/Users/joshuasrery/Documents/Codex/2026-10-20/is-it/work/mona-port/sweet/xnu/out/kernel.development.sweet`.
+  Both `research/mona-xnu/run3` (cpus=1) and `run-smp` (cpus=8) ran 150s,
+  captured PID 1 + 23 liveness messages, zero unknown glyphs, no visible panic.
+  Sanitized evidence: `qemu/validation/core-and-xnu.json`.
+- GUI milestone (240-second capture completed): existing local
+  root `.../is-it/work/ui-test/root-stable-welcome.img`, SHA256
+  `c240e0d0f8ac450ea71d7679f9f2f92ff1d95c66396600a1453388cc3899383b`,
+  product tree `.../is-it/work/ui-test/d22ap.adt`. Full-memory ADT and streamed
+  payload at `research/mona-xnu/`, run `run-gui`. Early msgbuf confirms 8/8 XNU
+  CPUs initialized + SGI1; SpringBoard/backboardd run. `preview2.png` visibly
+  renders the multilingual welcome screen; swap count 0x94b (2379), no crash
+  or panic marker in retained preview logs. Final `fb.png` is a blank text
+  animation phase; use `preview2.png` for the visibly legible welcome screen.
+  Final swap count 0x1336 (4918); no crash/panic marker in retained log samples.
+  `msgbuf.raw` is circular and has wrapped by the final capture. Preserve the
+  earlier `preview-msgbuf.raw` for 8/8 CPU startup evidence. No touch or setup
+  completion was tested. Sparse loader chunks were removed after capture.
+  Sanitized independently reviewed GUI evidence: `qemu/validation/ios-gui.json`.
+- Integration milestone commit message: `qemu: boot reference iOS userland on
+  mona model`. Includes bounded-memory payload packer/loader, mona ADT helper,
+  validation records and reproducible commands. See `docs/MONA_XNU.md`.
+- Remaining: real Moto RAM map/carve-outs, true A78 CPU modeling, Qualcomm
+  storage/display/touch/power and other peripherals, secure firmware and a
+  hardware-validated XNU driver port. Current GUI uses software rendering and
+  the SWEET/iPhone RAM framebuffer; the physical phone remains untouched.
+- Next concrete device milestone: investigate a Qualcomm UFS sysbus model at
+  0x01d84000 using QEMU's UFS protocol core, explicitly separating standard HCI
+  behavior from unresolved Qualcomm PHY/clock/reset/DMA behavior. Do not claim
+  the current RAM-disk root validates Moto UFS.
 
 ## Fork handoff: exact Moto G Stylus (2025) target (2026-10-29)
 

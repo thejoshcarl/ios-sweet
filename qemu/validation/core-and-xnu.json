@@ -1,0 +1,196 @@
+{
+  "schema_version": 1,
+  "assessment_date": "2026-10-29",
+  "scope": "Independent inspection of bare-metal core diagnostics and minimal reference XNU PID1 captures on the custom mona development machine.",
+  "qemu": {
+    "repository": "https://github.com/qemu/qemu.git",
+    "tag": "v11.1.2",
+    "upstream_commit": "4fc49f46dc95d4a27de2509e7fceb2931e91faeb",
+    "version": "QEMU emulator version 11.1.2 (v11.1.2-dirty)",
+    "overlay_source": "qemu/hw/arm/mona.c",
+    "machine_source_sha256": "c2fff89f765971d21d5172acad15305a4b2ca3033f242b662a638fc435aa9335",
+    "build_overlay_sha256": "89cd109d2b5c28eea3b3e796e2592264f108d0a07df544081c8b7bd37e80a60b",
+    "binary_sha256": "e8e1c1eadef26619a651de1e77ff4a59e35b29d0aebe2134a8e1af2f439bad27",
+    "configure_options": [
+      "--target-list=aarch64-softmmu",
+      "--with-devices-aarch64=mona",
+      "--without-default-devices",
+      "--enable-tcg",
+      "--disable-hvf",
+      "--disable-docs",
+      "--disable-tools",
+      "--disable-user",
+      "--disable-guest-agent",
+      "--disable-gtk",
+      "--disable-sdl",
+      "--disable-cocoa",
+      "--disable-vnc",
+      "--disable-curses",
+      "--disable-opengl",
+      "--disable-slirp",
+      "--disable-rust",
+      "--disable-plugins",
+      "--disable-werror"
+    ],
+    "machine": "mona",
+    "accelerator": "tcg",
+    "synthetic_ram_base": "0x80000000",
+    "synthetic_ram_bytes": 8589934592,
+    "modeled_cpus": 8
+  },
+  "core_diagnostic": {
+    "status": "passed",
+    "duration_seconds": 0.064,
+    "guest_sha256": "b30a9ddb1b3b289eef3b5097395b4a690e23da88e0f08cf5644d437afbcfad4d",
+    "inputs_sha256": {
+      "probe.S": "b9cc172a25f355dc956e343cc6ee35206dce542718cab922728cb2c770a60e54",
+      "probe.c": "9b0d3f0011944a1ab475dd293d658cff01edcbce934aac5437481985eef206eb",
+      "link.ld": "299ee9c947569b1215414810c0c533f08a7161a4599838610018aca2cbbe834d"
+    },
+    "serial_sha256": "50d45487d13283c5a01b46810041afd19e83c6fe83a72cc8e1d622bd3d753731",
+    "transcript": "MONA_PROBE START scope=qemu-core-model\nMONA_PROBE current_el=0x0000000000000001 mpidr=0x0000000080000000 midr=0x00000000412fd050 cntfrq=0x000000000124f800\nMONA_PROBE ram_boundaries=pass size_gib=8 high_word=0x27ffffff8\nMONA_PROBE ram_pattern=pass bytes=4096\nMONA_PROBE psci_version=0x0000000000010001\nMONA_PROBE secondary_affinity=0x0000000000000100 midr=0x00000000412fd050\nMONA_PROBE secondary_affinity=0x0000000000000200 midr=0x00000000412fd050\nMONA_PROBE secondary_affinity=0x0000000000000300 midr=0x00000000412fd050\nMONA_PROBE secondary_affinity=0x0000000000000400 midr=0x00000000410fd423\nMONA_PROBE secondary_affinity=0x0000000000000500 midr=0x00000000410fd423\nMONA_PROBE secondary_affinity=0x0000000000000600 midr=0x00000000410fd423\nMONA_PROBE secondary_affinity=0x0000000000000700 midr=0x00000000410fd423\nMONA_PROBE psci_cpu_on=pass online=8 models=4xa55+4xa78ae\nMONA_PROBE gicv3_virtual_timer=pass intid=27\nMONA_PROBE PASS scope=qemu-core-model cpus=8 timer_irq=27\n",
+    "verified_behavior": [
+      "EL1 boot on affinity 0 with Cortex-A55 MIDR and 19.2 MHz CNTFRQ",
+      "Distinct restored RAM words at 0x80000000,0x180000000,0x27ffffff8 plus 4 KiB pattern",
+      "SMC PSCI CPU_ON and per-core handshake at affinities 0x100 through 0x700",
+      "Four Cortex-A55 and four explicit Cortex-A78AE surrogate CPU MIDR parts",
+      "GICv3 delivery and acknowledgement of virtual timer IRQ 27"
+    ]
+  },
+  "reference_kernel": {
+    "repository": "https://github.com/dipa-studio/ios-sweet",
+    "artifact_commit": "fdad0de8dc0e75c5ea84762adc03f7232dc91f19",
+    "workflow_run_id": 39158169212,
+    "workflow_run_url": "https://github.com/dipa-studio/ios-sweet/actions/runs/39158169212",
+    "kernel_sha256": "d9cb893bd2baf841e94cd2001f0ec70c0fea42f045f87f14ae807e4ebc50e1e5",
+    "kernel_binary_hash_independently_checked": true,
+    "artifact_commit_and_run_provenance": "Recorded upstream artifact metadata supplied by the integration task; not a fresh kernel build in this validation.",
+    "root_program_source": "tools/sweet-init.S",
+    "root_program_source_sha256": "deba9506138347ab6d72d44b7e5cafebb0b00759408a9d6ba2fc75fbbbd3a842",
+    "root_image_sha256": "f5de3714ff95e6a3b9ece30723f677de0f3f74ec5eb985a00c5ae872f0ac9bf1",
+    "root_type": "Repository-owned static test PID1, served as /sbin/launchd by mockfs; not Apple launchd or the iOS userland.",
+    "adt_sha256": "0535d402e0aa4c2b2192c9c9dc595b237a32117823628f025d05db32170b5907"
+  },
+  "xnu_captures": [
+    {
+      "capture": "run3",
+      "qemu_cpus": 8,
+      "kernel_cpus_boot_argument": 1,
+      "payload_sha256": "41955849576a07f897aada5383b42b968fedb6071f2378c4e50f254e891d1c43",
+      "kernel_sha256": "d9cb893bd2baf841e94cd2001f0ec70c0fea42f045f87f14ae807e4ebc50e1e5",
+      "boot_arguments": "debug=0xc serial=3 cpus=1 keepsyms=1 -enable_kprintf_spam -noprogress rd=md0 sweettouch=0 sweetkeys=0 sweetusb=0 sweetlog=0",
+      "managed_ram_base": "0xb0000000",
+      "managed_ram_bytes": 1290797056,
+      "framebuffer_text_sha256": "64a2f59136bdbf7880ad8d3e81910316501a2d5d756e616f393635101666dfa1",
+      "framebuffer_png_sha256": "7a5a354911beca120df2a6d6d84c6ecd635fca4cdeff7fb639595e6e9bc9f815",
+      "snapshot_line_count": 75,
+      "unknown_glyphs": 0,
+      "pid1_banner_count": 1,
+      "liveness_message_count": 23,
+      "liveness_message_first_line": 45,
+      "liveness_message_last_line": 67,
+      "key_lines": [
+        {
+          "line": 35,
+          "text": "BSD root: md0, major 1, minor 0"
+        },
+        {
+          "line": 42,
+          "text": "load_init_program: attempting to load /sbin/launchd"
+        },
+        {
+          "line": 44,
+          "text": "*** SWEET userspace: init running as PID 1 ***"
+        },
+        {
+          "line": 45,
+          "text": "SWEET init: still alive"
+        },
+        {
+          "line": 67,
+          "text": "SWEET init: still alive"
+        }
+      ],
+      "panic_marker_counts_in_snapshot": {
+        "panic(cpu ": 0,
+        "SWEET EARLY PANIC:": 0
+      },
+      "reference_pid1_liveness_observed": true,
+      "capture_status": "no_panic_observed",
+      "snapshot_only": true,
+      "full_moto_boot_verified": false,
+      "xnu_all_eight_cpus_initialized_verified_from_this_snapshot": false
+    },
+    {
+      "capture": "run-smp",
+      "qemu_cpus": 8,
+      "kernel_cpus_boot_argument": 8,
+      "payload_sha256": "3d121370fdc8a77c6f0b5d025aa50c802fb202104ee4b715124a13265a7932ee",
+      "kernel_sha256": "d9cb893bd2baf841e94cd2001f0ec70c0fea42f045f87f14ae807e4ebc50e1e5",
+      "boot_arguments": "debug=0xc serial=3 cpus=8 keepsyms=1 -enable_kprintf_spam -noprogress rd=md0 sweettouch=0 sweetkeys=0 sweetusb=0 sweetlog=0",
+      "managed_ram_base": "0xb0000000",
+      "managed_ram_bytes": 1290797056,
+      "framebuffer_text_sha256": "e4a439ba43452d7f58a8ab1c9c21c03aae30ce018c4f9712059957ca817536ca",
+      "framebuffer_png_sha256": "dda53fa299fd9af1dfedd1513464fd0f9b4dc2b3da3d78eb7e8a9fe5d06368f7",
+      "snapshot_line_count": 75,
+      "unknown_glyphs": 0,
+      "pid1_banner_count": 1,
+      "liveness_message_count": 23,
+      "liveness_message_first_line": 47,
+      "liveness_message_last_line": 69,
+      "key_lines": [
+        {
+          "line": 37,
+          "text": "BSD root: md0, major 1, minor 0"
+        },
+        {
+          "line": 44,
+          "text": "load_init_program: attempting to load /sbin/launchd"
+        },
+        {
+          "line": 46,
+          "text": "*** SWEET userspace: init running as PID 1 ***"
+        },
+        {
+          "line": 47,
+          "text": "SWEET init: still alive"
+        },
+        {
+          "line": 69,
+          "text": "SWEET init: still alive"
+        }
+      ],
+      "panic_marker_counts_in_snapshot": {
+        "panic(cpu ": 0,
+        "SWEET EARLY PANIC:": 0
+      },
+      "reference_pid1_liveness_observed": true,
+      "capture_status": "no_panic_observed",
+      "snapshot_only": true,
+      "full_moto_boot_verified": false,
+      "xnu_all_eight_cpus_initialized_verified_from_this_snapshot": false,
+      "earlier_snapshot_evidence": {
+        "text_sha256": "8d3ccc4bea962dbe0e95ba0c822d1157f4a4864f63ef1dd893751fabd44c3225",
+        "key_lines": [
+          {
+            "line": 69,
+            "text": "mcache: 8 CPU(s), 64 bytes CPU cache line size"
+          }
+        ],
+        "interpretation": "Kernel reported an eight-CPU mcache configuration; this line alone is not per-core startup evidence."
+      }
+    }
+  ],
+  "limits": [
+    "A78AE is a development surrogate for the handset Cortex-A78; no exact CPU identity claim.",
+    "The 8 GiB contiguous RAM map, PL011 console and QEMU PSCI are development arrangements, not verified physical handset behavior.",
+    "XNU retains SWEET/iPhone platform identities and a 1080 x 2400 RAM framebuffer; Moto UFS, panel, touch, PMIC, radios and secure firmware are not modeled.",
+    "Each XNU framebuffer capture is a circular snapshot; no visible panic in it does not prove no earlier or later panic, complete boot logs or ongoing health.",
+    "The cpus=8 XNU capture reaches test PID 1; separate core diagnostics establish modeled eight-core startup, while the retained XNU snapshots do not prove every XNU secondary initialization handshake.",
+    "No iOS graphical userland, Moto firmware chain or physical phone boot is tested in this report."
+  ],
+  "ios_gui_tested": false,
+  "physical_handset_validated": false,
+  "phone_accessed": false,
+  "full_moto_hardware_identity": false
+}

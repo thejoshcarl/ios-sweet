@@ -92,3 +92,17 @@ iOS phone boot.
 
 The C machine implementation is GPL-2.0-or-later, matching its QEMU integration.
 QEMU remains under its upstream licensing terms.
+
+## XNU and graphical userspace
+
+The reference XNU kernel reached the test PID 1 and produced 23 liveness
+messages in each of the single-core and eight-core captures. The separate
+iOS-root experiment also reached a rendered multilingual welcome screen and
+recorded `8/8 CPUs initialized, SGI1 verified` in the kernel log. These use
+the reference SWEET framebuffer and drivers, not a complete Moto platform port.
+
+See [XNU preparation and capture](MONA_XNU.md) for the minimal root and GUI
+commands, and [recorded validation](../qemu/validation/core-and-xnu.json) for
+the core/minimal-root results and checksums. The separate
+[GUI validation record](../qemu/validation/ios-gui.json) captures the four-minute
+run, eight-core XNU startup, screenshot hashes and 4,918 framebuffer swaps.

@@ -1,0 +1,375 @@
+{
+  "schema_version": 1,
+  "assessment_date": "2026-10-29",
+  "scope": "iOS reference graphical userspace on the incomplete custom mona QEMU machine; not physical Moto validation.",
+  "qemu": {
+    "repository": "https://github.com/qemu/qemu.git",
+    "tag": "v11.1.2",
+    "upstream_commit": "4fc49f46dc95d4a27de2509e7fceb2931e91faeb",
+    "version": "QEMU emulator version 11.1.2 (v11.1.2-dirty)",
+    "overlay_source": "qemu/hw/arm/mona.c",
+    "machine_source_sha256": "c2fff89f765971d21d5172acad15305a4b2ca3033f242b662a638fc435aa9335",
+    "build_overlay_sha256": "89cd109d2b5c28eea3b3e796e2592264f108d0a07df544081c8b7bd37e80a60b",
+    "binary_sha256": "e8e1c1eadef26619a651de1e77ff4a59e35b29d0aebe2134a8e1af2f439bad27",
+    "configure_options": [
+      "--target-list=aarch64-softmmu",
+      "--with-devices-aarch64=mona",
+      "--without-default-devices",
+      "--enable-tcg",
+      "--disable-hvf",
+      "--disable-docs",
+      "--disable-tools",
+      "--disable-user",
+      "--disable-guest-agent",
+      "--disable-gtk",
+      "--disable-sdl",
+      "--disable-cocoa",
+      "--disable-vnc",
+      "--disable-curses",
+      "--disable-opengl",
+      "--disable-slirp",
+      "--disable-rust",
+      "--disable-plugins",
+      "--disable-werror"
+    ],
+    "machine": "mona",
+    "accelerator": "tcg",
+    "synthetic_ram_base": "0x80000000",
+    "synthetic_ram_bytes": 8589934592,
+    "modeled_cpus": 8
+  },
+  "reference_kernel": {
+    "repository": "https://github.com/dipa-studio/ios-sweet",
+    "artifact_commit": "fdad0de8dc0e75c5ea84762adc03f7232dc91f19",
+    "workflow_run_id": 39158169212,
+    "workflow_run_url": "https://github.com/dipa-studio/ios-sweet/actions/runs/39158169212",
+    "kernel_sha256": "d9cb893bd2baf841e94cd2001f0ec70c0fea42f045f87f14ae807e4ebc50e1e5",
+    "kernel_binary_hash_independently_checked": true,
+    "artifact_commit_and_run_provenance": "Recorded upstream artifact metadata supplied by the integration task; not a fresh kernel build in this validation."
+  },
+  "gui_root": {
+    "sha256": "c240e0d0f8ac450ea71d7679f9f2f92ff1d95c66396600a1453388cc3899383b",
+    "provenance": "Previously preserved local iOS 16.7.16 reference GUI root; root hash checked by integration agent. Firmware/root binary is not included in this report or repository.",
+    "ramdisk_bytes": 4026531840
+  },
+  "payload_preparation": {
+    "format": "SWEETXNU v1",
+    "output": "research/mona-xnu/payload-gui.bin",
+    "cputype": "0x100000c",
+    "cpusub": 0,
+    "fixups": 0,
+    "virt_base": "0xfffffe0006000000",
+    "entry": "0xfffffe000748b488",
+    "kernel_end": "0xfffffe00f84c8000",
+    "ramdisk": [
+      "0xb24c8000",
+      "0xf0000000"
+    ],
+    "size": 4043146032,
+    "sha256": "235954e2952dce1ecf4af7a413382491508a07a7d3350bd2b546240e2320cac9",
+    "segment_count": 11,
+    "managed_ram_bytes": 7783579648,
+    "occupied_ram_bytes": 4065132544,
+    "stream_chunk_bytes": 16777216
+  },
+  "payload_preparation_sha256": "3872e51fed67e3e38f108356f05b12d51d9f1e1163563e0e8cc6246fa649b78c",
+  "capture": {
+    "requested_duration_seconds": 240,
+    "qemu_machine": "mona",
+    "qemu_cpus": 8,
+    "kernel_cpus_boot_argument": 8,
+    "kernel_sha256": "d9cb893bd2baf841e94cd2001f0ec70c0fea42f045f87f14ae807e4ebc50e1e5",
+    "payload_sha256": "235954e2952dce1ecf4af7a413382491508a07a7d3350bd2b546240e2320cac9",
+    "boot_arguments": "debug=0xc serial=3 cpus=8 keepsyms=1 -enable_kprintf_spam -noprogress rd=md0 unentitled_ios_sim_launch=1 ignition_level=1 launchd_unsecure_cache=1 interrupt-masked-debug-mode=1 rootrw=1 sweetfb_noconsole=1 sweetnull=backboardd,SpringBoard,guest-sampler,Setup,budd sweettouch=0 sweetkeys=0 sweetusb=0 sweetlog=0",
+    "managed_ram_base": "0xb0000000",
+    "managed_ram_bytes": 7783579648,
+    "managed_ram_mode": "full-memory",
+    "loader_image_count": 8,
+    "loader_chunk_limit_bytes": 536870912,
+    "payload_preparation_method": "read-only metadata mmap; streamed hashing/copy; sparse loader chunks",
+    "capture_tool_status": "incomplete_decode",
+    "unknown_console_glyphs": 5025,
+    "interpretation": "Console font decoding is incomplete because the framebuffer contains graphical output. This status is not itself a GUI success or failure classification."
+  },
+  "xnu_smp_evidence": {
+    "all_eight_cpus_initialized_reported": true,
+    "per_core_psci_success_count": 7,
+    "per_core_sgi_handshake_count": 8,
+    "source": "preview-msgbuf.txt",
+    "source_sha256": "eb65cd724c8cd4db15717bd8f19197aab0f8a8ab3cfefb7a65bdbea22f09ccfe",
+    "key_lines": [
+      {
+        "line": 122,
+        "text": "[    0.333254]: SWEET CPU: cpu=0 mpidr=0x0 came alive; SGI1 OK"
+      },
+      {
+        "line": 124,
+        "text": "[    0.334246]: SWEET CPU: cpu=1 CPU_ON target=0x100 entry_pa=0xb148d000 context=1"
+      },
+      {
+        "line": 125,
+        "text": "[    0.334557]: SWEET CPU: cpu=1 PSCI CPU_ON rc=0"
+      },
+      {
+        "line": 133,
+        "text": "[    0.337683]: SWEET CPU: cpu=1 mpidr=0x100 came alive; SGI1 OK"
+      },
+      {
+        "line": 142,
+        "text": "[    0.338431]: SWEET CPU: cpu=2 CPU_ON target=0x200 entry_pa=0xb148d000 context=2"
+      },
+      {
+        "line": 145,
+        "text": "[    0.338748]: SWEET CPU: cpu=2 PSCI CPU_ON rc=0"
+      },
+      {
+        "line": 154,
+        "text": "[    0.341648]: SWEET CPU: cpu=2 mpidr=0x200 came alive; SGI1 OK"
+      },
+      {
+        "line": 156,
+        "text": "[    0.342383]: SWEET CPU: cpu=3 CPU_ON target=0x300 entry_pa=0xb148d000 context=3"
+      },
+      {
+        "line": 157,
+        "text": "[    0.342722]: SWEET CPU: cpu=3 PSCI CPU_ON rc=0"
+      },
+      {
+        "line": 162,
+        "text": "[    0.344404]: SWEET CPU: cpu=3 mpidr=0x300 came alive; SGI1 OK"
+      },
+      {
+        "line": 164,
+        "text": "[    0.345008]: SWEET CPU: cpu=4 CPU_ON target=0x400 entry_pa=0xb148d000 context=4"
+      },
+      {
+        "line": 165,
+        "text": "[    0.345202]: SWEET CPU: cpu=4 PSCI CPU_ON rc=0"
+      },
+      {
+        "line": 170,
+        "text": "[    0.348654]: SWEET CPU: cpu=4 mpidr=0x400 came alive; SGI1 OK"
+      },
+      {
+        "line": 172,
+        "text": "[    0.349234]: SWEET CPU: cpu=5 CPU_ON target=0x500 entry_pa=0xb148d000 context=5"
+      },
+      {
+        "line": 173,
+        "text": "[    0.349424]: SWEET CPU: cpu=5 PSCI CPU_ON rc=0"
+      },
+      {
+        "line": 178,
+        "text": "[    0.352981]: SWEET CPU: cpu=5 mpidr=0x500 came alive; SGI1 OK"
+      },
+      {
+        "line": 180,
+        "text": "[    0.353553]: SWEET CPU: cpu=6 CPU_ON target=0x600 entry_pa=0xb148d000 context=6"
+      },
+      {
+        "line": 181,
+        "text": "[    0.353754]: SWEET CPU: cpu=6 PSCI CPU_ON rc=0"
+      },
+      {
+        "line": 186,
+        "text": "[    0.356797]: SWEET CPU: cpu=6 mpidr=0x600 came alive; SGI1 OK"
+      },
+      {
+        "line": 188,
+        "text": "[    0.357370]: SWEET CPU: cpu=7 CPU_ON target=0x700 entry_pa=0xb148d000 context=7"
+      },
+      {
+        "line": 189,
+        "text": "[    0.357554]: SWEET CPU: cpu=7 PSCI CPU_ON rc=0"
+      },
+      {
+        "line": 194,
+        "text": "[    0.360948]: SWEET CPU: cpu=7 mpidr=0x700 came alive; SGI1 OK"
+      },
+      {
+        "line": 195,
+        "text": "[    0.361543]: SWEET CPU: 8/8 CPUs initialized, SGI1 verified"
+      },
+      {
+        "line": 254,
+        "text": "[   30.550623]: exec launchd"
+      },
+      {
+        "line": 340,
+        "text": "[   31.251910]: exec SpringBoard"
+      },
+      {
+        "line": 376,
+        "text": "[   32.308807]: exec backboardd"
+      }
+    ],
+    "register_snapshots": {
+      "preview-registers.txt": {
+        "sha256": "a4fc1a518774403256f135cdfb0ea46b12920c213c97ca80e37b563a68294a74",
+        "cpu_pc_snapshots": [
+          {
+            "cpu": 0,
+            "pc": "0xfffffe000747ea08"
+          },
+          {
+            "cpu": 1,
+            "pc": "0xfffffe000747ea08"
+          },
+          {
+            "cpu": 2,
+            "pc": "0xfffffe0007463eac"
+          },
+          {
+            "cpu": 3,
+            "pc": "0xfffffe000747ea08"
+          },
+          {
+            "cpu": 4,
+            "pc": "0xfffffe000747ea08"
+          },
+          {
+            "cpu": 5,
+            "pc": "0xfffffe000747ea08"
+          },
+          {
+            "cpu": 6,
+            "pc": "0xfffffe000747ea08"
+          },
+          {
+            "cpu": 7,
+            "pc": "0xfffffe000747ea08"
+          }
+        ]
+      },
+      "regs.txt": {
+        "sha256": "af54989f1c398995f8b47ccc793d575641ce3568680bfc1f7ae76bccddfd3ada",
+        "cpu_pc_snapshots": [
+          {
+            "cpu": 0,
+            "pc": "0xfffffe000747ea08"
+          },
+          {
+            "cpu": 0,
+            "pc": "0xfffffe000747ea08"
+          },
+          {
+            "cpu": 1,
+            "pc": "0xfffffe000747ea08"
+          },
+          {
+            "cpu": 2,
+            "pc": "0xfffffe0007491160"
+          },
+          {
+            "cpu": 3,
+            "pc": "0x00000001a6748c00"
+          },
+          {
+            "cpu": 4,
+            "pc": "0xfffffe0007487400"
+          },
+          {
+            "cpu": 5,
+            "pc": "0xfffffe000747ea08"
+          },
+          {
+            "cpu": 6,
+            "pc": "0xfffffe000747ea08"
+          },
+          {
+            "cpu": 7,
+            "pc": "0xfffffe000747ea08"
+          }
+        ]
+      }
+    }
+  },
+  "retained_kernel_log_buffers": [
+    {
+      "name": "preview-msgbuf.raw",
+      "sha256": "595ab71ebfa7fea10ad37c0981b44dbb65100c5b89a752db100b739c85ebf967",
+      "bytes": 131072,
+      "marker_counts": {
+        "CRASH ": 0,
+        "panic(cpu ": 0,
+        "SWEET EARLY PANIC:": 0
+      }
+    },
+    {
+      "name": "preview2-msgbuf.raw",
+      "sha256": "40e0fd6b1b463a7d3926232c59c4115f4e719edddb561eff691bf9c72020d67c",
+      "bytes": 131072,
+      "marker_counts": {
+        "CRASH ": 0,
+        "panic(cpu ": 0,
+        "SWEET EARLY PANIC:": 0
+      }
+    },
+    {
+      "name": "msgbuf.raw",
+      "sha256": "7410f4e4dd9c48ad05e65b98dd70a0001c0904e2da328cfe770ad231f6ec8bce",
+      "bytes": 131072,
+      "marker_counts": {
+        "CRASH ": 0,
+        "panic(cpu ": 0,
+        "SWEET EARLY PANIC:": 0
+      }
+    }
+  ],
+  "screenshots": {
+    "preview.png": {
+      "sha256": "2688ab86993ba6762360a380c6ee9b2b50c7a7cac402b56394f13477e9557d30",
+      "dimensions": [
+        1080,
+        2400
+      ]
+    },
+    "preview2.png": {
+      "sha256": "d45b62607c1e72e5de579607d4b1fe2a25c4445a5a07f06b5b791a478b4b0d03",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "visual_observation": "Independently viewed: white iOS welcome screen with Merhaba, Turkish swipe-up instruction, battery icon, information button and home indicator."
+    },
+    "fb.png": {
+      "sha256": "f26171cc1b57039b3423f6b329034f11fd8dc78fa4856d1c8b5c49d80c12ecda",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "visual_observation": "Root agent viewed a blank/fade phase with battery/information/home indicators; animation-phase interpretation is supported by the earlier welcome screenshot and advancing swap counter."
+    }
+  },
+  "framebuffer_swap_counter": {
+    "kernel_virtual_address": "0xfffffe0008072020",
+    "preview2_value": 2379,
+    "preview2_provenance": "Integration agent recorded QMP/HMP memory read during preview2 capture; not present in preview-registers.txt, which belongs to an earlier preview.",
+    "final_value": 4918,
+    "final_source": "regs.txt",
+    "final_key_line": "fffffe0008072020: 0x0000000000001336",
+    "increase": 2539,
+    "interpretation": "Frame swaps continued between the samples; this does not measure physical panel refresh rate or prove complete GUI functionality."
+  },
+  "observations": {
+    "apple_launchd_execution_logged": true,
+    "springboard_execution_logged": true,
+    "backboardd_execution_logged": true,
+    "graphical_welcome_screen_observed": true,
+    "no_crash_or_panic_markers_in_retained_buffers": true,
+    "reference_kernel_eight_cpu_startup_observed": true,
+    "touch_tested": false,
+    "setup_completed": false,
+    "home_screen_observed": false,
+    "physical_handset_validated": false,
+    "phone_accessed": false,
+    "full_moto_hardware_identity": false
+  },
+  "limits": [
+    "The machine uses Cortex-A78AE surrogates, synthetic contiguous RAM, a development PL011 console and QEMU PSCI; it is not identical to the handset.",
+    "XNU retains SWEET/iPhone identities and a RAM framebuffer, with reference phone input/USB probes disabled. Moto UFS, panel, touchscreen, PMIC, radios and secure firmware are unimplemented.",
+    "No visible CRASH or panic marker in three retained circular log buffers proves only their absence in those buffers, not continuous crash-free operation or future stability.",
+    "The final framebuffer is an animation/fade phase; positive welcome-screen evidence is the independently inspected earlier preview2 capture.",
+    "No touch, swipe interaction, setup completion, stock application usability or physical Moto boot was tested in this capture."
+  ]
+}

@@ -1,5 +1,39 @@
 # iOS 16 on sweet (Redmi Note 10 Pro, SM7150) - working notes
 
+## Live Moto bootloader inspection (2026-10-30)
+
+- User connected their XT2517V over USB in bootloader mode and authorized
+  inspection. One fastboot device was selected explicitly; bounded read-only
+  commands completed. No unlock/flash/erase/configuration change, slot switch
+  or reboot was requested. The handset remains in bootloader mode.
+- Live identity: mona, XT2517V, Tracfone, PVT; OEM locked, secure production,
+  warranty flag not void, factory modes disabled, debug token inactive.
+  `get_unlock_data` succeeds but does not establish unlock eligibility.
+  `flashing get_unlock_ability` returns portal instructions, not a Boolean.
+- IMPORTANT firmware change: current build is W1VAS36.62-22-16-1-3-7, ABL
+  MBM-3.0-mona-b11af6458aa6-260827-VVA3S5V-W1-ST15.1.3-0c763. Saved analysis
+  used -1-3-6 with the same ABL source Git identifier but different date/build;
+  binary equivalence is not established. Exact -7 firmware was not located in
+  the checked Tracfone mirror or exact-build search.
+- `oem read_sv` reports rollback slots #0=20, #1=0, #2=20, #3-31=0. Saved -6
+  vbmeta index was 18, so do not treat it as a validated downgrade/recovery
+  image. Component security-version zeros do not prove absence of enforcement.
+- Standard `fetch abl_a` is unsupported (`max-fetch-size` missing); it read no
+  firmware bytes. Partition metadata enumerated 117 entries, with no efisp.
+  `oem config` and `oem config list` failed without a detailed reason. Their
+  help interface worked; no setter or hidden mutation command was tried.
+- Newly resolved hardware facts: bootloader selects
+  tm_nt37706_667_1220p_dsc_vdo_120hz_v1; UFS reports 128GB SKHynix
+  H9QT0G6CN6X146 FV=A003, RAM reports 8GB SKHynix LP4x. This carrier unit's
+  storage differs from the retail 256GB listing. Actual RAM banks, framebuffer
+  address/stride and exact touch chip remain unresolved.
+- Raw reports, device identifiers and unlock-data string are PRIVATE under
+  ignored `research/mona-live-2026-10-30/`. Sanitized record only:
+  `qemu/validation/mona-live-2026-10-30.json`. Do not add raw reports to Git.
+- No physical unlock was achieved. Next unlock-research prerequisite: obtain
+  the exact -7 bootloader/secure-firmware package or a verified read-only dump
+  before assuming the saved binaries describe every current enforcement path.
+
 ## Active fork implementation: mona QEMU (2026-10-29)
 
 - User revised the exact-only constraint: "Let's hit that and see if we can't

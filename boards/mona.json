@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "profile": "mona-development",
-  "date": "2026-10-29",
+  "date": "2026-10-30",
   "purpose": "Hardware contract and provenance for an incomplete Moto QEMU model; not a flashable image or a claim of hardware identity",
   "target": {
     "product": "Moto G Stylus (2025)",
@@ -10,10 +10,25 @@
     "soc": "SM6475",
     "platform": "parrot",
     "compatible": ["moto,mona", "qcom,parrot"],
-    "reference_firmware": "W1VAS36.62-22-16-1-3-6",
+    "reference_firmware": "W1VAS36.62-22-16-1-3-7",
     "reference_android": 16,
-    "hardware_revision": null,
-    "firmware_evidence": "Previously saved read-only observations and matching firmware DTB analysis; not re-observed on a handset during this implementation"
+    "hardware_revision": "PVT",
+    "hardware_revision_meaning": "Bootloader hwrev label; not a unique board identifier or a complete hardware revision specification",
+    "firmware_evidence": "Live read-only bootloader-mode fastboot observation on 2026-10-30; device-tree analysis still refers to the older -1-3-6 firmware"
+  },
+  "live_observations": {
+    "date": "2026-10-30",
+    "mode": "fastboot bootloader",
+    "provenance": "live_fastboot_report",
+    "bootloader_version": "MBM-3.0-mona-b11af6458aa6-260827-VVA3S5V-W1-ST15.1.3-0c763",
+    "trustzone_version": "MBM-3.0-mona-f8a54d93f-260827",
+    "secure": true,
+    "lifecycle_state": "SECURE_PROD_MODE",
+    "bootloader_lock_state": "oem_locked",
+    "cid": 51,
+    "carrier": "tracfone",
+    "matching_current_firmware_archive_located": false,
+    "scope": "Sanitized reported device properties; no raw partition reads, firmware signature validation, runtime MMIO test or new -1-3-7 DTB analysis"
   },
   "cpu": {
     "count": 8,
@@ -69,6 +84,10 @@
     "secure_monitor_firmware_emulated": false
   },
   "memory": {
+    "hardware_capacity_label": "8 GB",
+    "hardware_vendor": "SK hynix",
+    "hardware_type": "LPDDR4X",
+    "capacity_vendor_type_provenance": "live_fastboot_report",
     "hardware_usable_banks": null,
     "hardware_reserved_regions": null,
     "static_firmware_memory_reg": ["0x0", "0x0", "0x0", "0x0"],
@@ -87,13 +106,22 @@
     "ufs": {
       "controller_base": "0x01d84000",
       "provenance": "Matching firmware DTBs and saved Android boot-device property",
+      "hardware_capacity_label": "128 GB",
+      "hardware_vendor": "SK hynix",
+      "hardware_model": "H9QT0G6CN6X146",
+      "firmware_revision": "A003",
+      "reported_write_booster_value": 2048,
+      "capacity_model_provenance": "live_fastboot_report",
+      "capacity_note": "The selected handset reports 128 GB; the 256 GB US retail product listing is not this unit's measured storage configuration.",
       "qualcomm_wrapper_phy_clock_reset_and_dma_behavior": null
     },
     "display": {
       "width": 1220,
       "height": 2712,
       "maximum_refresh_hz": 120,
-      "active_panel": null,
+      "active_panel": "tm_nt37706_667_1220p_dsc_vdo_120hz_v1",
+      "active_panel_provenance": "live_fastboot_report",
+      "active_panel_scope": "Bootloader-reported primary panel selection; framebuffer address, stride and pixel format remain unknown",
       "framebuffer_base": null,
       "framebuffer_stride": null,
       "pixel_format": null,
@@ -115,13 +143,13 @@
     "Actual usable RAM banks and firmware/security carve-outs",
     "Runtime CPU feature registers and implementation-specific behavior",
     "Bootloader load addresses, framebuffer handoff and reset/entry state",
-    "Active panel and exact Goodix controller for the selected hardware revision",
+    "Exact Goodix controller and firmware for the selected hardware revision",
     "Qualcomm clock, reset, RPMh/SPMI, PHY, SMMU and DMA behavior",
     "Secure-world services and original firmware boot dependencies"
   ],
   "peripheral_gaps": [
     "Qualcomm UFS host integration, PHY and persistent storage",
-    "Qualcomm display controller, DSI/DSC and active panel",
+    "Qualcomm display controller, DSI/DSC and selected panel behavior",
     "GENI SPI, Goodix touch and GPIO/PMIC buttons",
     "Clocks, resets, RPMh/SPMI, power domains and DMA protection",
     "Adreno GPU, Hexagon DSP, modem, Wi-Fi and Bluetooth",
@@ -129,10 +157,17 @@
     "Original boot firmware and secure monitor behavior"
   ],
   "sources": {
+    "live_fastboot_report": {
+      "kind": "sanitized_live_observation_report",
+      "date": "2026-10-30",
+      "path": "qemu/validation/mona-live-2026-10-30.json",
+      "scope": "Current handset's reported SKU, PVT label, firmware, boot state, component models and primary panel; raw identifiers and full dumps excluded"
+    },
     "matching_firmware_dtbs": {
       "kind": "prior_local_analysis",
       "date": "2026-10-21",
-      "scope": "Selected nodes in both base DTBs from the firmware matching the saved XT2517V build; no runtime MMIO test",
+      "firmware": "W1VAS36.62-22-16-1-3-6",
+      "scope": "Selected nodes in both base DTBs from the older saved XT2517V build; not revalidated against the current -1-3-7 firmware; no runtime MMIO test",
       "signature_chain_independently_verified": false,
       "artifacts_in_repository": false
     },

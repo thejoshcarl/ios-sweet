@@ -11,15 +11,38 @@ phone hardware or a working Moto iOS boot.
 
 ## Evidence and its limits
 
-The starting evidence combines saved read-only observations from an XT2517V,
+Live read-only fastboot observations on **2026-10-30** confirmed the handset's
+XT2517V / `mona` identity and reported `hwrev: PVT`. PVT is a bootloader label,
+not a unique board identifier or a complete specification of every component
+revision. The current Android 16 build is `W1VAS36.62-22-16-1-3-7`.
+The sanitized [live observation report](../qemu/validation/mona-live-2026-10-30.json)
+records the public hardware facts without serial numbers, IMEIs or raw dumps.
+
+| Current live fact | Reported value | Interpretation |
+| --- | --- | --- |
+| Bootloader | `MBM-3.0-mona-b11af6458aa6-260827-VVA3S5V-W1-ST15.1.3-0c763` | Current reported version; no matching current firmware package was located |
+| TrustZone | `MBM-3.0-mona-f8a54d93f-260827` | Reported component version; no secure-world behavior was tested |
+| Security / carrier | Secure production state, `oem_locked`, CID 51, TracFone | Bootloader reports; no unlock or firmware write was performed |
+| Installed RAM | 8 GB SK hynix LPDDR4X | Capacity/type/vendor report; physical banks and carve-outs remain unknown |
+| Installed UFS | 128 GB SK hynix `H9QT0G6CN6X146`, firmware `A003`, WB value 2048 | Component model information, not a serial number or a UFS driver test |
+| Primary panel | `tm_nt37706_667_1220p_dsc_vdo_120hz_v1` | Bootloader-selected Tianma NT37706 panel identifier; framebuffer address, stride and format remain unknown |
+
+This unit's reported **128 GB** storage is the target fact. Motorola's 256 GB
+US retail listing describes another product configuration and must not be used
+as a substitute for the live handset's report. The exact Goodix touch chip is
+still unresolved; panel selection does not establish touch-controller identity.
+
+The earlier evidence combines saved read-only observations from this XT2517V,
 analysis of device trees from its matching Android 16 firmware build
 `W1VAS36.62-22-16-1-3-6`, and Motorola's public Android 15 device-tree snapshot
 at commit `9454192995fbc9443f5ad9c0563bf1386949c5eb`. The selected interrupt,
 timer, CPU-affinity and PSCI properties agree between these firmware sources.
-These are configuration facts, not measurements of a running custom kernel.
+These remain older firmware configuration facts, not measurements of a
+running custom kernel or a newly verified device tree for the current `-7`
+build. The address-map rows below retain that earlier provenance.
 The saved firmware analysis checked package consistency and correspondence to
 the observed build; it did not independently authenticate Motorola's signature
-chain. The unit's exact hardware revision remains unresolved.
+chain.
 
 | Item | Hardware evidence | Source and limit |
 | --- | --- | --- |
@@ -31,14 +54,15 @@ chain. The unit's exact hardware revision remains unresolved.
 | Other timer INTIDs | Secure physical 29, nonsecure physical 30, EL2 physical 28 | Derived from the Arm timer binding's tuple order |
 | PSCI | `arm,psci-1.0`, SMC conduit | Firmware contract; secure monitor internals are not specified |
 | UFS | Controller at `0x01d84000` | Firmware and saved Android boot-device property; PHY/clock/DMA behavior remains unresolved |
-| Display | 1220 x 2712, up to 120 Hz | Saved Android mode information; panel identity and framebuffer handoff remain unresolved |
+| Display | 1220 x 2712, up to 120 Hz | Saved Android mode information and current primary-panel selection; framebuffer handoff remains unresolved |
 | Touch | Goodix driver on SPI controller `0xa8c000`; ten slots | Saved live observations; exact controller chip unresolved |
 
 Primary source references: [Motorola mona board overlay](https://github.com/MotorolaMobilityLLC/kernel-devicetree/blob/9454192995fbc9443f5ad9c0563bf1386949c5eb/qcom/parrot-mona-evb-overlay.dts),
 [parrot SoC description](https://github.com/MotorolaMobilityLLC/kernel-devicetree/blob/9454192995fbc9443f5ad9c0563bf1386949c5eb/qcom/parrot.dtsi),
 and [mona touchscreen overlay](https://github.com/MotorolaMobilityLLC/kernel-devicetree/blob/9454192995fbc9443f5ad9c0563bf1386949c5eb/qcom/parrot-mona-touchscreen-overlay.dtsi).
 The public overlay describes a GT9916P and selects between panel candidates;
-it does not prove the exact panel/touch variant fitted to this handset.
+the current bootloader resolves the selected panel name, while the overlay
+alone still does not prove the exact touch-controller variant in this handset.
 
 ## Explicit development choices
 

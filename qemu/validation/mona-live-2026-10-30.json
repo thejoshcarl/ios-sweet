@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-30",
+  "scope": "Bounded read-only USB fastboot inspection of the user-connected handset; no unlock or write operation",
+  "fastboot_host_version": "37.0.1-15733141",
+  "device": {
+    "product": "mona",
+    "sku": "XT2517V",
+    "carrier": "tracfone",
+    "hardware_revision_reported": "PVT",
+    "firmware_fingerprint": "motorola/mona_g/mona:16/W1VAS36.62-22-16-1-3-7/0c763-3fafa8:user/release-keys",
+    "bootloader_version": "MBM-3.0-mona-b11af6458aa6-260827-VVA3S5V-W1-ST15.1.3-0c763",
+    "active_slot": "a",
+    "userspace_fastboot": "no",
+    "storage_report": "128GB SKhynix H9QT0G6CN6X146 FV=A003 WB=2048",
+    "ram_report": "8GB SKHYNIX LP4x DIE=16Gb M5-M8=06 08 00 50",
+    "primary_display_report": "tm_nt37706_667_1220p_dsc_vdo_120hz_v1",
+    "trustzone_version": "MBM-3.0-mona-f8a54d93f-260827"
+  },
+  "security": {
+    "secure": "yes",
+    "lifecycle": "SECURE_PROD_MODE",
+    "securestate": "oem_locked",
+    "warranty_void_reported": "no",
+    "factory_modes": "disabled",
+    "debug_token_state": "inactive",
+    "frp_state": "no protection (0)",
+    "verity_state": "enforcing (0)",
+    "vbmeta_ril_reported": 0,
+    "rollback_slots_reported": {
+      "0": 20,
+      "1": 0,
+      "2": 20,
+      "3-31": 0
+    },
+    "rollback_interpretation": "Values reported by oem read_sv; zero component-version reports do not establish absence of rollback enforcement"
+  },
+  "capabilities": {
+    "get_unlock_data": "succeeded; unique device blob retained privately",
+    "flashing_get_unlock_ability": "prints Motorola web-portal guidance; returned OKAY but no eligibility Boolean",
+    "partition_metadata": "listed successfully",
+    "partition_count_listed": 117,
+    "efisp_listed": false,
+    "abl_a_size_bytes": 1048576,
+    "standard_fetch": "unsupported: max-fetch-size not found; no firmware bytes read",
+    "config_help": "succeeded",
+    "config_supported_tags_list": "failed while locked; no detailed reason returned",
+    "config_configured_tags_list": "failed while locked; no detailed reason returned",
+    "partition_b_unbootable_reported": "yes"
+  },
+  "read_only_commands": [
+    [
+      "getvar",
+      "all"
+    ],
+    [
+      "flashing",
+      "get_unlock_ability"
+    ],
+    [
+      "oem",
+      "get_unlock_data"
+    ],
+    [
+      "getvar",
+      "max-fetch-size"
+    ],
+    [
+      "getvar",
+      "unlocked"
+    ],
+    [
+      "getvar",
+      "partition-size:abl_a"
+    ],
+    [
+      "getvar",
+      "partition-size:efisp"
+    ],
+    [
+      "getvar",
+      "partition-size:efisp_a"
+    ],
+    [
+      "fetch",
+      "abl_a",
+      "<private local output>"
+    ],
+    [
+      "oem",
+      "help"
+    ],
+    [
+      "oem",
+      "partition",
+      "help"
+    ],
+    [
+      "oem",
+      "partition"
+    ],
+    [
+      "oem",
+      "config",
+      "help"
+    ],
+    [
+      "oem",
+      "read_sv"
+    ],
+    [
+      "oem",
+      "config"
+    ],
+    [
+      "oem",
+      "config",
+      "list"
+    ]
+  ],
+  "findings": [
+    "Connected build ends in -1-3-7; previous firmware analysis used -1-3-6.",
+    "Current and saved ABL version strings share source Git identifier b11af6458aa6; binary equivalence is not established.",
+    "No exact -1-3-7 firmware package was located in the checked Tracfone mirror and exact-build search.",
+    "Saved -1-3-6 vbmeta index18 is below currently reported rollback values20; it is not an established downgrade/recovery target.",
+    "A usable unlock or retail-conversion path was not established by these probes."
+  ],
+  "unlock_attempted": false,
+  "flash_attempted": false,
+  "erase_attempted": false,
+  "configuration_changed": false,
+  "slot_changed": false,
+  "reboot_requested": false,
+  "privacy": "Device serial, IMEI/eSIM/chip identifiers, unlock-data blob and raw reports are excluded from this record and retained only under ignored research/.",
+  "source_note": "Live fastboot observations. Hardware claims are bootloader-reported, not independently measured register behavior."
+}

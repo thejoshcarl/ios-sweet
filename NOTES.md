@@ -1,5 +1,30 @@
 # iOS 16 on sweet (Redmi Note 10 Pro, SM7150) - working notes
 
+## Fork handoff: exact Moto G Stylus (2025) target (2026-10-29)
+
+- Fork created: https://github.com/thejoshcarl/ios-sweet, from upstream
+  `45263bee51df4a0f55cdf9c649af886399488ddb`. Local remotes: `origin` is the
+  fork; `upstream` is dipa-studio/ios-sweet.
+- The user explicitly requires exact phone hardware and declined a generic
+  ARM QEMU boot as a substitute. No Moto model, driver port or boot image has
+  been implemented. See `docs/MOTO_G_STYLUS_2025.md` for sources and required
+  work. README now distinguishes this fork's status from upstream Redmi claims.
+- Observed locally: QEMU 11.1.2; no Moto/SM6475/Snapdragon machine in its
+  inventory. `python3 tools/qemu-sweet.py --check-env` passes for the existing
+  generic cortex-a76/virt path. No guest boot was run, so there is no Moto boot
+  result. No GitHub Actions run was dispatched.
+- Prior local Moto research and SWEET artifacts were located and read. They
+  establish useful research provenance, not a completed Moto QEMU model. Device
+  dumps and Apple/phone artifacts were not copied into this fork.
+- Documentation milestone: `docs: assess exact Moto G Stylus 2025 QEMU target`.
+  Documentation links, QEMU inventory and runner assumptions were independently
+  reviewed; `git diff --check` passed. No executable behavior was changed.
+- Next required work: resolve the selected Moto board's missing hardware
+  details, implement its QEMU machine/peripherals and validate the corresponding
+  XNU platform port. CPU count/RAM/display settings alone cannot meet the exact
+  hardware requirement. The original SWEET handoff below remains upstream
+  history and does not describe a Motorola device used in this chat.
+
 ## Agent handoff / active work (2026-10-15, latest)
 
 ### >>> UPDATE 2026-10-18 (read first, then the 10-17 handoff below) <<<

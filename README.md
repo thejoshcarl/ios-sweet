@@ -1,5 +1,11 @@
 # ios-sweet
 
+**Fork status (2026-10-29):** This fork is investigating an exact Moto G Stylus
+(2025) QEMU target. No Moto machine model or Moto boot has been implemented.
+The existing QEMU runner uses the generic `virt` board. See the
+[Moto target assessment](docs/MOTO_G_STYLUS_2025.md) for the hardware gaps and
+required implementation work. The Redmi results below describe upstream.
+
 **Apple's iOS 16 running on a Redmi Note 10 Pro.**
 
 This project ports Apple's open-source XNU kernel (xnu-8796, the iOS 16 generation) to the Xiaomi Redmi Note 10 Pro (`sweet`, Qualcomm SM7150 / Snapdragon 732G). On top of it runs the **unmodified iOS 16.7.16 (20H392) userland of the iPhone X**: launchd, the system daemons, backboardd, SpringBoard and the stock apps.

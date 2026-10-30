@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "profile": "mona-development",
+  "date": "2026-10-29",
+  "purpose": "Hardware contract and provenance for an incomplete Moto QEMU model; not a flashable image or a claim of hardware identity",
+  "target": {
+    "product": "Moto G Stylus (2025)",
+    "sku": "XT2517V",
+    "codename": "mona",
+    "soc": "SM6475",
+    "platform": "parrot",
+    "compatible": ["moto,mona", "qcom,parrot"],
+    "reference_firmware": "W1VAS36.62-22-16-1-3-6",
+    "reference_android": 16,
+    "hardware_revision": null,
+    "firmware_evidence": "Previously saved read-only observations and matching firmware DTB analysis; not re-observed on a handset during this implementation"
+  },
+  "cpu": {
+    "count": 8,
+    "hardware_groups": [
+      {
+        "logical_ids": [0, 1, 2, 3],
+        "core": "Cortex-A55",
+        "part": "0xd05",
+        "variant": 2,
+        "revision": 0
+      },
+      {
+        "logical_ids": [4, 5, 6, 7],
+        "core": "Cortex-A78",
+        "part": "0xd41",
+        "variant": 1,
+        "revision": 2
+      }
+    ],
+    "hardware_groups_provenance": "Saved CPU implementer/part/variant/revision observations; core names identified from Arm part numbers",
+    "mpidr_affinities": ["0x000", "0x100", "0x200", "0x300", "0x400", "0x500", "0x600", "0x700"],
+    "mpidr_provenance": ["matching_firmware_dtbs", "motorola_parrot_dtsi"],
+    "runtime_id_aa64mmfr0_el1": null,
+    "android_page_bytes_observed": 4096,
+    "qemu_model_caveat": "A substituted big-core CPU model must be disclosed. Renaming cortex-a78ae or cortex-a76 does not implement an identical Cortex-A78."
+  },
+  "gic": {
+    "compatible": "arm,gic-v3",
+    "distributor_base": "0x17200000",
+    "distributor_size": "0x10000",
+    "redistributor_base": "0x17260000",
+    "redistributor_size": "0x100000",
+    "redistributor_stride": "0x20000",
+    "provenance": ["matching_firmware_dtbs", "motorola_parrot_dtsi"],
+    "runtime_mmio_validated": false
+  },
+  "timer": {
+    "frequency_hz": 19200000,
+    "interrupt_ids": {
+      "secure_physical": 29,
+      "nonsecure_physical": 30,
+      "virtual": 27,
+      "el2_physical": 28
+    },
+    "interrupt_derivation": "Arm generic timer binding order; architectural GIC PPI INTID equals the DT PPI index plus 16",
+    "provenance": ["matching_firmware_dtbs", "motorola_parrot_dtsi", "arm_timer_binding", "arm_gic_binding"],
+    "runtime_frequency_hz": null
+  },
+  "psci": {
+    "compatible": "arm,psci-1.0",
+    "conduit": "smc",
+    "provenance": ["matching_firmware_dtbs", "motorola_parrot_dtsi"],
+    "secure_monitor_firmware_emulated": false
+  },
+  "memory": {
+    "hardware_usable_banks": null,
+    "hardware_reserved_regions": null,
+    "static_firmware_memory_reg": ["0x0", "0x0", "0x0", "0x0"],
+    "static_firmware_memory_reg_meaning": "Bootloader-populated placeholder, not a valid RAM map",
+    "development_defaults": {
+      "ram_base": "0x80000000",
+      "ram_size_bytes": 8589934592,
+      "ram_size_label": "8 GiB",
+      "configurable": true,
+      "classification": "synthetic_development_map",
+      "note": "A single contiguous development bank. Neither the base nor this layout has been established as the handset's usable RAM map."
+    },
+    "provenance": ["matching_firmware_dtbs", "motorola_parrot_dtsi"]
+  },
+  "peripheral_facts": {
+    "ufs": {
+      "controller_base": "0x01d84000",
+      "provenance": "Matching firmware DTBs and saved Android boot-device property",
+      "qualcomm_wrapper_phy_clock_reset_and_dma_behavior": null
+    },
+    "display": {
+      "width": 1220,
+      "height": 2712,
+      "maximum_refresh_hz": 120,
+      "active_panel": null,
+      "framebuffer_base": null,
+      "framebuffer_stride": null,
+      "pixel_format": null,
+      "firmware_panel_candidates": ["Tianma NT37706", "CSOT VTDR6126"],
+      "provenance": ["Saved Android display observations", "motorola_mona_touch_overlay"]
+    },
+    "touch": {
+      "bus": "SPI",
+      "controller_base": "0x00a8c000",
+      "active_kernel_driver_observed": "goodix_ts",
+      "exact_chip": null,
+      "firmware_candidates": ["GT9916S", "GT9916P"],
+      "multitouch_slots": 10,
+      "reported_coordinate_maxima": [19520, 43392],
+      "provenance": "Saved live sysfs/input observations and matching firmware analysis; public Motorola overlay explicitly describes GT9916P"
+    }
+  },
+  "unresolved": [
+    "Actual usable RAM banks and firmware/security carve-outs",
+    "Runtime CPU feature registers and implementation-specific behavior",
+    "Bootloader load addresses, framebuffer handoff and reset/entry state",
+    "Active panel and exact Goodix controller for the selected hardware revision",
+    "Qualcomm clock, reset, RPMh/SPMI, PHY, SMMU and DMA behavior",
+    "Secure-world services and original firmware boot dependencies"
+  ],
+  "peripheral_gaps": [
+    "Qualcomm UFS host integration, PHY and persistent storage",
+    "Qualcomm display controller, DSI/DSC and active panel",
+    "GENI SPI, Goodix touch and GPIO/PMIC buttons",
+    "Clocks, resets, RPMh/SPMI, power domains and DMA protection",
+    "Adreno GPU, Hexagon DSP, modem, Wi-Fi and Bluetooth",
+    "Audio, camera/ISP, sensors, NFC and fingerprint hardware",
+    "Original boot firmware and secure monitor behavior"
+  ],
+  "sources": {
+    "matching_firmware_dtbs": {
+      "kind": "prior_local_analysis",
+      "date": "2026-10-21",
+      "scope": "Selected nodes in both base DTBs from the firmware matching the saved XT2517V build; no runtime MMIO test",
+      "signature_chain_independently_verified": false,
+      "artifacts_in_repository": false
+    },
+    "motorola_parrot_dtsi": "https://github.com/MotorolaMobilityLLC/kernel-devicetree/blob/9454192995fbc9443f5ad9c0563bf1386949c5eb/qcom/parrot.dtsi",
+    "motorola_mona_board_overlay": "https://github.com/MotorolaMobilityLLC/kernel-devicetree/blob/9454192995fbc9443f5ad9c0563bf1386949c5eb/qcom/parrot-mona-evb-overlay.dts",
+    "motorola_mona_touch_overlay": "https://github.com/MotorolaMobilityLLC/kernel-devicetree/blob/9454192995fbc9443f5ad9c0563bf1386949c5eb/qcom/parrot-mona-touchscreen-overlay.dtsi",
+    "public_motorola_source_scope": "Android 15 source snapshot; not verified as identical to the selected Android 16 firmware",
+    "arm_timer_binding": "https://github.com/torvalds/linux/blob/master/Documentation/devicetree/bindings/timer/arm,arch_timer.yaml",
+    "arm_gic_binding": "https://github.com/torvalds/linux/blob/master/Documentation/devicetree/bindings/interrupt-controller/arm,gic-v3.yaml"
+  }
+}

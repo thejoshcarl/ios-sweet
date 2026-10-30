@@ -1,5 +1,25 @@
 # iOS 16 on sweet (Redmi Note 10 Pro, SM7150) - working notes
 
+## Active fork implementation: mona QEMU (2026-10-29)
+
+- User revised the exact-only constraint: "Let's hit that and see if we can't
+  get the closest we can." Closest feasible development models are authorized;
+  approximations must stay explicit. Earlier exact-only assessment is history.
+- Added a dedicated `mona` machine, QEMU source pin/overlay builder, sourced
+  `boards/mona.json` and bare-metal runtime diagnostics. Build/test instructions
+  and gaps are in `docs/MONA_QEMU.md` and `docs/MONA_HARDWARE.md`.
+- QEMU v11.1.2 commit `4fc49f46dc95d4a27de2509e7fceb2931e91faeb` built locally
+  under `research/qemu-build-mona`. `tools/test-mona-qemu.py` PASSED: all eight
+  CPU affinities/MIDRs through SMC PSCI, low/high 8 GiB RAM boundaries, 4 KiB
+  RAM pattern, CNTFRQ 19200000 and actual GICv3 virtual-timer interrupt 27.
+  Evidence: `research/mona-test/result.json`, `serial.txt`. Generated DTB was
+  inspected for GIC addresses/span, firmware timer flags and all CPU nodes.
+- Hardware substitutes: four A78AEs for the Moto A78s, contiguous development
+  RAM at 0x80000000, PL011 console at 0x09000000, direct EL1 entry and emulated
+  SMC PSCI. No Qualcomm peripheral/secure-world implementation is claimed.
+- QEMU checkpatch and Python syntax checks pass. No GitHub Actions run, phone
+  access or device write. XNU boot integration is the next milestone.
+
 ## Fork handoff: exact Moto G Stylus (2025) target (2026-10-29)
 
 - Fork created: https://github.com/thejoshcarl/ios-sweet, from upstream

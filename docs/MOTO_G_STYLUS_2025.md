@@ -1,5 +1,10 @@
 # Moto G Stylus (2025): exact QEMU target assessment
 
+**Implementation update:** The user subsequently authorized the closest
+feasible model. An incomplete custom `mona` machine now passes core-platform
+diagnostics. See [the current implementation](MONA_QEMU.md). The assessment
+below records the initial exact-hardware requirement and remaining gaps.
+
 Assessment date: 2026-10-29. Upstream baseline:
 `dipa-studio/ios-sweet@45263bee51df4a0f55cdf9c649af886399488ddb`.
 

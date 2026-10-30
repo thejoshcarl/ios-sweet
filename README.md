@@ -1,10 +1,12 @@
 # ios-sweet
 
-**Fork status (2026-10-29):** This fork is investigating an exact Moto G Stylus
-(2025) QEMU target. No Moto machine model or Moto boot has been implemented.
-The existing QEMU runner uses the generic `virt` board. See the
-[Moto target assessment](docs/MOTO_G_STYLUS_2025.md) for the hardware gaps and
-required implementation work. The Redmi results below describe upstream.
+**Fork status (2026-10-29):** This fork now includes an experimental custom
+`mona` QEMU machine for Moto G Stylus (2025) research. Its CPU, RAM, PSCI and
+timer-interrupt diagnostic passes on all eight modeled cores. Four big cores,
+the RAM layout, console and firmware interface use documented substitutes;
+phone peripherals remain unimplemented. See [build and test instructions](docs/MONA_QEMU.md)
+and the [hardware contract](docs/MONA_HARDWARE.md). The Redmi results below
+describe upstream.
 
 **Apple's iOS 16 running on a Redmi Note 10 Pro.**
 

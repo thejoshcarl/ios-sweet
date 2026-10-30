@@ -1,0 +1,5 @@
+{
+  "repository": "https://github.com/qemu/qemu.git",
+  "tag": "v11.1.2",
+  "commit": "4fc49f46dc95d4a27de2509e7fceb2931e91faeb"
+}
